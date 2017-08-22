@@ -5,17 +5,17 @@ module Grocery
     def initialize(id, products)
       @id = id
       @products = products
-      @products_arr = []
+      #@products_arr = []
     end
 
     def total
-      subtotal = @products.values.inject(0,:+)
+      subtotal = @products.values.inject(0, :+)
       withtax = subtotal + subtotal * 0.075
-      return withtax
+      return withtax.round(2)
     end
 
     def add_product(product_name, product_price)
-      unless @product.has_key?(product_name)
+      unless @products.has_key?(product_name)
         @products[product_name] = product_price
         return true
       else
@@ -34,7 +34,7 @@ module Grocery
 
     def remove_product(product_name)
       if @products.has_key?(product_name)
-        @product.delete(product_name)
+        @products.delete(product_name)
         return true
       else
         return false
@@ -44,7 +44,4 @@ module Grocery
   end
 end
 
-new_order = Grocery::Order.new(234, {"salad" => 2.99 })
-
-puts new_order.products
-new_order.add_product
+# new_order = Grocery::Order.new(234, {"salad" => 2.99 })
