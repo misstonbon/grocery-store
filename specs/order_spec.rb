@@ -3,6 +3,8 @@ require 'minitest/reporters'
 require 'minitest/skip_dsl'
 require_relative '../lib/order'
 
+
+
 describe "Order Wave 1" do
   describe "#initialize" do
     it "Takes an ID and collection of products" do
@@ -27,6 +29,7 @@ describe "Order Wave 1" do
       expected_total = sum + (sum * 0.075).round(2)
 
       order.total.must_equal expected_total
+      #might need to test .00 round?
     end
 
     it "Returns a total of zero if there are no products" do
@@ -76,34 +79,107 @@ describe "Order Wave 1" do
       result.must_equal true
     end
   end
+
+  describe "#remove_product" do
+    it "decreases the number of products" do
+      products = { "banana" => 1.99, "cracker" => 3.00, "salad" => 4.25 }
+      before_count = products.count
+      order = Grocery::Order.new(1337, products)
+
+      order.remove_product("salad")
+      expected_count = before_count - 1
+      order.products.count.must_equal expected_count
+    end
+
+    it "Is removed from the collection of products" do
+      products = { "banana" => 1.99, "cracker" => 3.00, "sandwich" => 4.25}
+      order = Grocery::Order.new(1337, products)
+
+      order.remove_product("sandwich")
+      order.products.include?("sandwich").must_equal false
+    end
+
+    it "Returns false if the product is not removed" do
+      products = { "banana" => 1.99, "cracker" => 3.00 }
+
+      order = Grocery::Order.new(1337, products)
+      before_total = order.total
+
+      result = order.remove_product("sandwich")
+      after_total = order.total
+
+      result.must_equal false
+      before_total.must_equal after_total
+    end
+
+    it "Returns true if the product is removed" do
+      products = { "banana" => 1.99, "cracker" => 3.00, "salad" => 4.25 }
+      order = Grocery::Order.new(1337, products)
+
+      result = order.remove_product("salad")
+      result.must_equal true
+    end
+  end
 end
 
-# TODO: change 'xdescribe' to 'describe' to run these tests
-xdescribe "Order Wave 2" do
+
+describe "Order Wave 2" do
+  before do
+    @orders = Grocery::Order.all
+  end
+
   describe "Order.all" do
+
+    it "Everything in an @order is an array" do
+      @orders.must_be_kind_of Array
+    end
+
     it "Returns an array of all orders" do
-      # TODO: Your test code here!
-      # Useful checks might include:
-      #   - Order.all returns an array
-      #   - Everything in the array is an Order
-      #   - The number of orders is correct
-      #   - The ID and products of the first and last
-      #       orders match what's in the CSV file
-      # Feel free to split this into multiple tests if needed
+      @orders.each do |order|
+        order.must_be_kind_of Grocery::Order
+      end
+    end
+
+    # it "Array is filled with Orders" do
+    #   10.times do
+    #     @orders[rand(100)].must_be_kind_of Grocery::Order
+    #   end
+    # end
+
+    it "Number of orders is correct." do
+      @orders.count.must_equal 100
+    end
+
+    it "first and last are same as csv" do
+      @orders.first.id.must_equal 1
+      @orders.last.id.must_equal 100
+      # orders_first = 	[1, {"Slivered Almonds" => 22.88, "Wholewheat flour" => 1.93, "Grape Seed Oil" => 74.9}]
+      #
+      # @orders.first.id.must_equal orders_first[0]
+      # @orders.first.products.must_equal orders_first[1]
+      #
+      # orders_last = [100, {"Allspice" => 64.74, "Bran" => 14.72, "UnbleachedFlour" => 80.59}]
+      #
+      # @orders.last.id.must_equal orders_last[0]
+      # @orders.last.products.must_equal orders_last[1]
     end
   end
 
   describe "Order.find" do
     it "Can find the first order from the CSV" do
-      # TODO: Your test code here!
+      Grocery::Order.find(1).id.must_equal @orders.first.id
+      Grocery::Order.find(1).products.must_equal @orders.first.products
     end
 
     it "Can find the last order from the CSV" do
-      # TODO: Your test code here!
+      Grocery::Order.find(100).id.must_equal @orders.last.id
+      Grocery::Order.find(100).products.must_equal @orders.last.products
     end
 
     it "Raises an error for an order that doesn't exist" do
-      # TODO: Your test code here!
+      proc {Grocery::Order.find(300)}.must_raise ArgumentError
     end
+
   end
+
 end
