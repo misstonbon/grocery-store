@@ -130,7 +130,7 @@ describe "Order Wave 2" do
 
   describe "Order.all" do
 
-    it "Everything in an @order is an array" do
+    it "Everything in an @orders is an array" do
       @orders.must_be_kind_of Array
     end
 
