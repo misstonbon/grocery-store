@@ -46,27 +46,9 @@ module Grocery
         products_arr.each do |item_and_price|
           product_price = item_and_price.split':'
           products_hash[product_price[0]] = product_price[1].to_f
-##########
-# id = nil
-#       products_arr = []
-#       products = {}
-#       @@all_orders = []
-#
-#       CSV.open('support/orders.csv', 'r').each do |line|
-#         id = line[0].to_i
-#         products_arr = line[1].split(';')
-#         products = Hash[products_arr.map { |i| i.split(":") }]
-#         products = Hash[products.keys.zip(products.values.map(&:to_f))]
-#
-#         order = Grocery::Order.new(id, products)
-#         all_orders << order
-#       end
 
-###########
         end
-
         orders << self.new(id, products_hash)
-
       end
       return orders
     end
