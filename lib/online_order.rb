@@ -30,7 +30,7 @@ module Grocery
     def self.all
       all_orders = []
       CSV.read('support/online_orders.csv').each do |line|
-        id = line[0]
+        id = line[0].to_i
         customer_id = line[2]
         status = line[3].to_sym
         product_hash = {}
@@ -47,7 +47,7 @@ module Grocery
         orders = []
         all_orders = self.all
         all_orders.each do |order|
-          if order.id == input
+          if orders.id == input
             orders.push(order)
           end
         end
@@ -56,8 +56,7 @@ module Grocery
         else
           return orders
         end
-      end  
+      end
     end #end find_by_customer
   end #end class
 end #end module
-# rewrite add_product to raise ArgumentError unless paid or pending
