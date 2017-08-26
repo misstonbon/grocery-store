@@ -12,7 +12,15 @@ require 'minitest/skip_dsl'
 # only test things that are different.
 
 xdescribe "OnlineOrder" do
+  before do
+    @online_order = Grocery::OnlineOrder.all
+  end
+
   describe "#initialize" do
+
+    it "Costomer class must be initialized" so
+
+
     it "Is a kind of Order" do
       # Check that an OnlineOrder is in fact a kind of Order
 
@@ -30,7 +38,7 @@ xdescribe "OnlineOrder" do
     end
   end
 
-  describe "#total" do
+  xdescribe "#total" do
     it "Adds a shipping fee" do
       # TODO: Your test code here!
     end
@@ -40,7 +48,7 @@ xdescribe "OnlineOrder" do
     end
   end
 
-  describe "#add_product" do
+  xdescribe "#add_product" do
     it "Does not permit action for processing, shipped or completed statuses" do
       # TODO: Your test code here!
     end
@@ -50,7 +58,7 @@ xdescribe "OnlineOrder" do
     end
   end
 
-  describe "OnlineOrder.all" do
+  xdescribe "OnlineOrder.all" do
     it "Returns an array of all online orders" do
       # TODO: Your test code here!
       # Useful checks might include:
@@ -62,8 +70,8 @@ xdescribe "OnlineOrder" do
       # Feel free to split this into multiple tests if needed
     end
   end
-  
-  describe "OnlineOrder.find_by_customer" do
+
+  xdescribe "OnlineOrder.find_by_customer" do
     it "Returns an array of online orders for a specific customer ID" do
       # TODO: Your test code here!
     end
