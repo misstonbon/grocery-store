@@ -62,6 +62,7 @@ describe "Customer" do
         csv_id << line[1]
         return csv_id
       end
+      
       Grocery::Customer.find(-1).must_equal csv_id.last
     end
 
