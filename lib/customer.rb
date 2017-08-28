@@ -37,8 +37,8 @@ module Grocery
         if customer.id == id
           found_customer = customer
         end
-        return customer
       end
+      return found_customer
     end
   end
 end
