@@ -2,6 +2,7 @@ require 'csv'
 
 # og code using hash products
 module Grocery
+
   class Order
     attr_reader :id, :products
 
