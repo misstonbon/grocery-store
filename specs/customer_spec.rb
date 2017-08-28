@@ -48,22 +48,16 @@ describe "Customer" do
       it "Can find the first customer from the CSV" do
         csv_email = []
         CSV.open("../support/customers.csv", 'r').each do |line|
-          csv_email << line[2]
-          return csv_email
+          csv_email << line[1]
         end
-        Grocery::Customer.find(1).must_equal csv_email.first
+
+        csv_email.include?(Grocery::Customer.find(1).email).must_equal true
+        # Grocery::Customer.find(1).email.must_equal csv_email.first
       end
     end
 
-
     it "Can find the last customer from the CSV" do
-      csv_id = []
-      CSV.open("../support/customers.csv", 'r').each do |line|
-        csv_id << line[1]
-        return csv_id
-      end
-      
-      Grocery::Customer.find(-1).must_equal csv_id.last
+      Grocery::Customer.find(35).email.must_equal "rogers_koelpin@oconnell.org"
     end
 
     it "Raises an error for a customer that doesn't exist" do
