@@ -16,14 +16,19 @@ module Grocery
     end
 
     def total
-      return super.total + 10
+      if @products.count > 0 #!products.empty?
+        return super + 10
+      end
+
+      return super
     end
 
     def add_product(product_name, product_price)
       if @status == :pending || @status == :paid
-        super.add_product(product_name, product_price)
+        super(product_name, product_price)
       else
         raise ArgumentError.new "Cannot be modified."
+        # it can also just be set to false
       end
     end
 
@@ -37,7 +42,7 @@ module Grocery
         products = {}
         line[1].split(";").each do |item_and_price|
           product = item_and_price.split(":")
-          products[product[0]] = product[1]
+          products[product[0]] = product[1].to_f
         end
         all_online_orders << Grocery::OnlineOrder.new(id, products, customer_id, status)
       end
@@ -69,7 +74,7 @@ module Grocery
       end
       return online_orders
     end
-    
+
   end
 
 end
